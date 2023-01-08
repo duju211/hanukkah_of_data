@@ -7,5 +7,6 @@ customers <- function(df_customers_raw) {
       last_name = map_chr(name_split, last),
       initials = str_to_lower(str_glue(
         "{str_sub(first_name, end = 1)}{str_sub(last_name, end = 1)}"))) |>
-    select(where(negate(is_list)))
+    select(where(negate(is_list))) |>
+    distinct(customerid, .keep_all = TRUE)
 }

@@ -10,6 +10,7 @@ list(
   tar_target(coffee_bagel_regex, regex("bagel|coffee", ignore_case = TRUE)),
   tar_target(dog_years, 2018 - (1:20 * 12)),
   tar_target(product_pastries, "BKY"),
+  tar_target(product_collect, "COL"),
   
   tar_target(df_customers_raw, customers_raw(customers_path)),
   tar_target(df_customers, customers(df_customers_raw)),
@@ -31,5 +32,11 @@ list(
     tinder_woman(
       df_products, df_orders, df_customers, product_pastries)),
   tar_target(
-    df_cat_lady, cat_lady(df_products, df_orders, df_customers))
+    df_cat_lady, cat_lady(df_products, df_orders, df_customers)),
+  tar_target(df_frugal_cousin, frugal_cousin(df_orders, df_customers)),
+  tar_target(
+    df_ex_boyfriend, ex_boyfriend(df_frugal_cousin, df_orders, df_customers)),
+  tar_target(
+    df_collector,
+    collector(df_products, df_orders, df_customers, product_collect))
 )
