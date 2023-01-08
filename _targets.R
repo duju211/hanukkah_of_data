@@ -15,14 +15,8 @@ list(
   tar_target(df_customers, customers(df_customers_raw)),
   tar_target(df_products_raw, products_raw(products_path)),
   tar_target(df_products, products(df_products_raw)),
-  tar_target(
-    df_products_coffee_bagel,
-    products_coffee_bagel(df_products, coffee_bagel_regex)),
   tar_target(df_order_items_raw, order_items_raw(order_items_path)),
   tar_target(df_order_items, order_items(df_order_items_raw, df_products)),
-  tar_target(
-    df_order_items_coffee_bagel,
-    order_items_coffee_bagel(df_order_items, df_products_coffee_bagel)),
   tar_target(df_orders_raw, orders_raw(orders_path)),
   tar_target(df_orders, orders(df_orders_raw, df_order_items)),
   
@@ -30,7 +24,7 @@ list(
   tar_target(df_investigator, investigator(df_customers, df_phone_letter)),
   tar_target(
     df_contractor,
-    contractor(df_orders_raw, df_order_items_coffee_bagel, df_customers)),
+    contractor(df_orders, df_customers, coffee_bagel_regex)),
   tar_target(df_spider_hat, spider_hat(df_customers, df_contractor, dog_years)),
   tar_target(
     df_tinder_woman,
