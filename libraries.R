@@ -1,5 +1,6 @@
 library(tarchetypes)
 library(conflicted)
+library(babynames)
 library(tidyverse)
 library(lubridate)
 library(targets)

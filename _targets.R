@@ -19,10 +19,12 @@ list(
     df_products_coffee_bagel,
     products_coffee_bagel(df_products, coffee_bagel_regex)),
   tar_target(df_order_items_raw, order_items_raw(order_items_path)),
+  tar_target(df_order_items, order_items(df_order_items_raw, df_products)),
   tar_target(
     df_order_items_coffee_bagel,
-    order_items_coffee_bagel(df_order_items_raw, df_products_coffee_bagel)),
+    order_items_coffee_bagel(df_order_items, df_products_coffee_bagel)),
   tar_target(df_orders_raw, orders_raw(orders_path)),
+  tar_target(df_orders, orders(df_orders_raw, df_order_items)),
   
   tar_target(df_phone_letter, phone_letter()),
   tar_target(df_investigator, investigator(df_customers, df_phone_letter)),
@@ -33,6 +35,7 @@ list(
   tar_target(
     df_tinder_woman,
     tinder_woman(
-      df_products, df_order_items_raw, df_orders_raw, df_customers,
-      product_pastries))
+      df_products, df_orders, df_customers, product_pastries)),
+  tar_target(
+    df_cat_lady, cat_lady(df_products, df_orders, df_customers))
 )
