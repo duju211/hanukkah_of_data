@@ -1,0 +1,55 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Julian During 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("libraries.R")
+```
+
+# Challenge
+
+Hanukkah of data is a [data challenge](https://hanukkah.bluebird.sh/about/)
+where you have to solve 8 puzzles surrounding a fictional dataset.
+
+# Data
+
+## Customers
+
+```{embed}
+"R/customers.R"
+```
+
+```{r, echo=FALSE}
+tar_read(df_customers)
+```
+
+## Products
+
+```{embed}
+"R/products.R"
+```
+
+```{r, echo=FALSE}
+tar_read(df_products)
+```
+
+## Orders
+
+```{embed}
+"R/orders.R"
+```
+
+```{r, echo=FALSE}
+tar_read(df_orders)
+```
+

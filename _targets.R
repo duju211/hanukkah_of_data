@@ -38,5 +38,7 @@ list(
     df_ex_boyfriend, ex_boyfriend(df_frugal_cousin, df_orders, df_customers)),
   tar_target(
     df_collector,
-    collector(df_products, df_orders, df_customers, product_collect))
+    collector(df_products, df_orders, df_customers, product_collect)),
+  
+  tar_render(blog_post, "blog_post.Rmd")
 )
