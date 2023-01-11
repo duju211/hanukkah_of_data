@@ -10,6 +10,7 @@ output: distill::distill_article
 creative_commons: CC BY
 repository_url: https://github.com/duju211/hanukkah_of_data
 base_url: https://www.datannery.com/posts/hanukkah-of-data
+preview: hanukkah.jpg
 ---
 
 ```{r setup, include=FALSE}
@@ -18,6 +19,9 @@ source("libraries.R")
 
 tar_load(c(df_customers, df_customers_raw))
 ```
+
+Title photo from <a href="https://unsplash.com/@gaellemarcel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Gaelle Marcel</a> on <a href="https://unsplash.com/de/fotos/wkn_KHBExcE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
 
 # Challenge
 
