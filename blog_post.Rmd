@@ -100,7 +100,8 @@ investigator:
 ```{r, echo=FALSE}
 tar_read(df_investigator) |>
   select(customerid, name, phone) |>
-  gt()
+  gt() |>
+  as_raw_html()
 ```
 
 ## Puzzle 2
@@ -120,7 +121,8 @@ and bagels
 ```{r, echo=FALSE}
 tar_read(df_contractor) |>
   select(customerid, name, citystatezip, phone) |>
-  gt()
+  gt() |>
+  as_raw_html()
 ```
 
 ## Puzzle 3
