@@ -20,6 +20,10 @@ source("libraries.R")
 tar_load(c(df_customers, df_customers_raw))
 ```
 
+```{r, preview=TRUE, echo=FALSE}
+knitr::include_graphics("hanukkah.png")
+```
+
 Title photo from <a href="https://unsplash.com/@gaellemarcel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Gaelle Marcel</a> on <a href="https://unsplash.com/de/fotos/wkn_KHBExcE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
   
 
