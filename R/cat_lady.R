@@ -1,7 +1,4 @@
 cat_lady <- function(df_products, df_orders, df_customers) {
-  df_products_jersey <- df_products |>
-    filter(str_detect(desc, regex("jersey", ignore_case = TRUE)))
-  
   df_products_cat <- df_products |>
     filter(str_detect(desc, regex("cat", ignore_case = TRUE))) |>
     filter(str_detect(desc, regex("senior", ignore_case = TRUE)))
