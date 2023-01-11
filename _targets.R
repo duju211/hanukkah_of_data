@@ -41,5 +41,8 @@ list(
     df_collector,
     collector(df_products, df_orders, df_customers, product_collect)),
   
-  tar_render(blog_post, "blog_post.Rmd")
+  tar_render(blog_post, "blog_post.Rmd"),
+  tar_render(
+    readme, "blog_post.Rmd", output_file = "README.md",
+    output_format = "md_document")
 )

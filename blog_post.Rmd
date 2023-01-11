@@ -140,13 +140,9 @@ Dog years are determined by the following function:
 "R/det_dog_years.R"
 ```
 
-Resulting in:
+Resulting in: `r str_flatten(tar_read(dog_years), ', ')`
 
-```{r, echo=FALSE}
-tar_read(dog_years)
-```
-
-With this information, filter for the neighbor:
+With this information we can find out who the neighbor is:
 
 ```{embed}
 "R/spider_hat.R"
