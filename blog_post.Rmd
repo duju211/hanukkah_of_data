@@ -151,6 +151,7 @@ With this information we can find out who the neighbor is:
 ```{r, echo=FALSE}
 tar_read(df_spider_hat) |>
   select(customerid, name, citystatezip, birthdate, phone) |>
-  gt()
+  gt() |>
+  as_raw_html()
 ```
 
