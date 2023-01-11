@@ -8,10 +8,11 @@ list(
   tar_target(order_items_path, "csv/noahs-orders_items.csv", format = "file"),
   tar_target(orders_path, "csv/noahs-orders.csv", format = "file"),
   tar_target(coffee_bagel_regex, regex("bagel|coffee", ignore_case = TRUE)),
-  tar_target(dog_years, 2018 - (1:20 * 12)),
+  tar_target(dog_years, det_dog_years()),
   tar_target(product_pastries, "BKY"),
   tar_target(product_collect, "COL"),
   
+  tar_target(txt_csv, csv_txt()),
   tar_target(df_customers_raw, customers_raw(customers_path)),
   tar_target(df_customers, customers(df_customers_raw)),
   tar_target(df_products_raw, products_raw(products_path)),

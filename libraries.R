@@ -4,6 +4,8 @@ library(babynames)
 library(tidyverse)
 library(lubridate)
 library(targets)
+library(glue)
 library(fs)
+library(gt)
 
 conflict_prefer("filter", "dplyr")

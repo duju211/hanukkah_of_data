@@ -14,23 +14,42 @@ output: distill::distill_article
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source("libraries.R")
+
+tar_load(c(df_customers, df_customers_raw))
 ```
 
 # Challenge
 
-Hanukkah of data is a [data challenge](https://hanukkah.bluebird.sh/about/)
+'Hanukkah of Data' is a [data challenge](https://hanukkah.bluebird.sh/about/)
 where you have to solve 8 puzzles surrounding a fictional dataset.
+
+We are asked to find a rug for our granduncle Noah who owns a store. The
+store has data about customer, products and orders. With the help of the data
+([CSV files](https://github.com/duju211/hanukkah_of_data/tree/master/csv))
+we are asked to solve a total of eight puzzles.
 
 # Data
 
+The data for this analysis consists of four CSV files: `r tar_read(txt_csv)`.
+The data is read
+into R with the help of the `readr::read_csv` function,
+specifying the correct column types as arguments in the function calls.
+
 ## Customers
+
+There are a total of `r nrow(df_customers_raw)` customers in the raw data.
+Perform the following preprocessing steps:
+
+* Determine the Initials by splitting the name into first and last name
+* Extract all digits from the phone number and save in column `phone_chr`
+* Remove duplicates
 
 ```{embed}
 "R/customers.R"
 ```
 
 ```{r, echo=FALSE}
-tar_read(df_customers)
+df_customers
 ```
 
 ## Products
@@ -51,5 +70,91 @@ tar_read(df_products)
 
 ```{r, echo=FALSE}
 tar_read(df_orders)
+```
+
+# Puzzles
+
+## Puzzle 1
+
+To find the rug, we will need to contact a private investigator.
+The last name of the investigator can be spelled by using the letters printed on the
+phone buttons. For example: 2 has “ABC”, and 3 “DEF”, etc.
+
+The key pad of the phone can be represented in R like this:
+
+```{embed}
+"R/phone_letter.R"
+```
+
+```{r, echo=FALSE}
+tar_read(df_phone_letter)
+```
+
+By combining this representation with the data on hand, we can determine the
+investigator:
+
+```{embed}
+"R/investigator.R"
+```
+
+```{r, echo=FALSE}
+tar_read(df_investigator) |>
+  select(customerid, name, phone) |>
+  gt()
+```
+
+## Puzzle 2
+
+Now we are looking for a contractor, to whom the rug was given to by a 
+cleaning company. The following is known:
+ 
+* The contractor has the initials 'jd'
+* The cleaning company and the contractor had meetings at Noah's over coffee
+and bagels
+* The cleaning company stopped outsourcing a few years ago
+
+```{embed}
+"R/contractor.R"
+```
+
+```{r, echo=FALSE}
+tar_read(df_contractor) |>
+  select(customerid, name, citystatezip, phone) |>
+  gt()
+```
+
+## Puzzle 3
+
+We are searching for the neighbor of the contractor. The neighbor has the
+following characteristics:
+
+* Star Sign: Aries
+  * March 21 - April 19
+* Born in the year of the Dog
+  * Every 12 years (2018 for example)
+* Lives in the neighborhood
+
+Dog years are determined by the following function:
+
+```{embed}
+"R/det_dog_years.R"
+```
+
+Resulting in:
+
+```{r, echo=FALSE}
+tar_read(dog_years)
+```
+
+With this information, filter for the neighbor:
+
+```{embed}
+"R/spider_hat.R"
+```
+
+```{r, echo=FALSE}
+tar_read(df_spider_hat) |>
+  select(customerid, name, citystatezip, birthdate, phone) |>
+  gt()
 ```
 
