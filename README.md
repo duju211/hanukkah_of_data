@@ -1,3 +1,5 @@
+<img src="hanukkah.png" width="6016" />
+
 Title photo from
 <a href="https://unsplash.com/@gaellemarcel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Gaelle
 Marcel</a> on
