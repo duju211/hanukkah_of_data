@@ -9,7 +9,6 @@ date: "`r Sys.Date()`"
 output: distill::distill_article
 creative_commons: CC BY
 repository_url: https://github.com/duju211/hanukkah_of_data
-base_url: https://www.datannery.com/posts/hanukkah-of-data/
 preview: hanukkah.jpg
 ---
 
