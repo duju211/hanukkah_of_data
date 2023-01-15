@@ -25,36 +25,23 @@ knitr::include_graphics("hanukkah.png")
 ```
 
 Title photo from <a href="https://unsplash.com/@gaellemarcel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Gaelle Marcel</a> on <a href="https://unsplash.com/de/fotos/wkn_KHBExcE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-  
 
 # Challenge
 
-'Hanukkah of Data' is a [data
-challenge](https://hanukkah.bluebird.sh/about/) where you have to solve
-8 puzzles surrounding a fictional dataset.
+'Hanukkah of Data' is a [data challenge](https://hanukkah.bluebird.sh/about/) where you have to solve 8 puzzles surrounding a fictional data set.
 
-We are asked to find a rug for our granduncle Noah who owns a store. The
-store has data about customer, products and orders. With the help of the
-data ([CSV
-files](https://github.com/duju211/hanukkah_of_data/tree/master/csv)) we
-are asked to solve a total of eight puzzles.
+We are asked to find a rug for our granduncle Noah who owns a store. The store has data about customer, products and orders. With the help of the data ([CSV files](https://github.com/duju211/hanukkah_of_data/tree/master/csv)) we are asked to solve a total of eight puzzles.
 
 # Data
 
-The data for this analysis consists of four CSV files:
-`r tar_read(txt_csv)`. The data is read into R with the help of the
-`readr::read_csv` function, specifying the correct column types as
-arguments in the function calls.
+The data for this analysis consists of four CSV files: `r tar_read(txt_csv)`. The data is read into R with the help of the `readr::read_csv` function, specifying the correct column types as arguments in the function calls.
 
 ## Customers
 
-There are a total of `r nrow(df_customers_raw)` customers in the raw
-data. Perform the following preprocessing steps:
+There are a total of `r nrow(df_customers_raw)` customers in the raw data. Perform the following preprocessing steps:
 
--   Determine the Initials by splitting the name into first and last
-    name
--   Extract all digits from the phone number and save in column
-    `phone_chr`
+-   Determine the Initials by splitting the name into first and last name
+-   Extract all digits from the phone number and save in column `phone_chr`
 -   Remove duplicates
 
 ```{embed}
@@ -67,8 +54,7 @@ df_customers
 
 ## Products
 
-There are a total of `r nrow(tar_read(df_products))` products. Perform
-the following preprocessing:
+There are a total of `r nrow(tar_read(df_products))` products. Perform the following preprocessing:
 
 -   Extract the category by removing all digits from the `desc` string
 
@@ -86,22 +72,23 @@ tar_read(df_products)
 
 ## Orders
 
-```{embed}
-"R/orders.R"
+```{r, include=FALSE}
+tar_load(df_orders)
 ```
 
-```{r, echo=FALSE}
-tar_read(df_orders)
+There are a total of `r nrow (df_orders)` orders with
+`r nrow(tar_read(df_order_items))` items ordered. Join the ordered item as
+list column to make them easily accessible.
+
+```{embed}
+"R/orders.R"
 ```
 
 # Puzzles
 
 ## Puzzle 1
 
-To find the rug, we will need to contact a private investigator. The
-last name of the investigator can be spelled by using the letters
-printed on the phone buttons. For example: 2 has "ABC", and 3 "DEF",
-etc.
+To find the rug, we will need to contact a private investigator. The last name of the investigator can be spelled by using the letters printed on the phone buttons. For example: 2 has "ABC", and 3 "DEF", etc.
 
 The key pad of the phone can be represented in R like this:
 
@@ -113,8 +100,7 @@ The key pad of the phone can be represented in R like this:
 tar_read(df_phone_letter)
 ```
 
-By combining this representation with the data on hand, we can determine
-the investigator:
+By combining this representation with the data on hand, we can determine the investigator:
 
 ```{embed}
 "R/investigator.R"
@@ -129,12 +115,10 @@ tar_read(df_investigator) |>
 
 ## Puzzle 2
 
-Now we are looking for a contractor, to whom the rug was given to by a
-cleaning company. The following is known:
+Now we are looking for a contractor, to whom the rug was given to by a cleaning company. The following is known:
 
 -   The contractor has the initials 'jd'
--   The cleaning company and the contractor had meetings at Noah's over
-    coffee and bagels
+-   The cleaning company and the contractor had meetings at Noah's over coffee and bagels
 -   The cleaning company stopped outsourcing a few years ago
 
 ```{embed}
@@ -150,8 +134,7 @@ tar_read(df_contractor) |>
 
 ## Puzzle 3
 
-We are searching for the neighbor of the contractor. The neighbor has
-the following characteristics:
+We are searching for the neighbor of the contractor. The neighbor has the following characteristics:
 
 -   Star Sign: Aries
     -   March 21 - April 19
@@ -186,8 +169,7 @@ The next persons has the following habit:
 
 -   Claims the first pastries of the day
 
-Filter products for the '`r tar_read(product_pastries)`' category and
-search for the person which always orders these products first:
+Filter products for the '`r tar_read(product_pastries)`' category and search for the person which always orders these products first:
 
 ```{embed}
 "R/tinder_woman.R"
@@ -202,8 +184,7 @@ tar_read(df_tinder_woman) |>
 
 ## Puzzle 5
 
-In the 5th puzzle we need to find a lady with a lot of cats as pets. We
-know about her and her pets:
+In the 5th puzzle we need to find a lady with a lot of cats as pets. We know about her and her pets:
 
 -   The cats are senior
 
@@ -224,8 +205,7 @@ tar_read(df_cat_lady) |>
 
 ## Puzzle 6
 
-The cat lady has a very frugal cousin. She tells us: *"
-Noah [...] loses money whenever she comes in the store":*
+The cat lady has a very frugal cousin. She tells us: *" Noah [...] loses money whenever she comes in the store":*
 
 ```{embed}
 "R/frugal_cousin.R"
@@ -240,10 +220,7 @@ tar_read(df_frugal_cousin) |>
 
 ## Puzzle 7
 
-The frugal cousin tells us how she met her ex-boyfriend.
-They met while they were buying the same product, but in different
-colors. So we look at all the orders from the frugal cousin and search
-for that incident:
+The frugal cousin tells us how she met her ex-boyfriend. They met while they were buying the same product, but in different colors. So we look at all the orders from the frugal cousin and search for that incident:
 
 ```{embed}
 "R/ex_boyfriend.R"
@@ -258,10 +235,7 @@ tar_read(df_ex_boyfriend) |>
 
 ## Puzzle 8
 
-Finally, we search for a collector. The collector is in possession of a
-complete set of
-Noah\'s collectibles. By looking at the data, the relevant category is
-'`r tar_read(product_collect)`':
+Finally, we search for a collector. The collector is in possession of a complete set of Noah's collectibles. By looking at the data, the relevant category is '`r tar_read(product_collect)`':
 
 ```{embed}
 "R/collector.R"
@@ -276,7 +250,9 @@ tar_read(df_collector) |>
 
 # End
 
-Participation in the 'Hanukkah of Data' competition was a challenging
-and rewarding experience. It was a great chance to show and improve my
-problem solving + coding capabilities and I'm already looking forward to
-next year!
+Participating in the "Hanukkah of Data" competition was both challenging and
+rewarding. We successfully solved 8 difficult puzzles,
+sharpening our problem-solving and coding skills.
+I look forward to the challenge again next year and am eager to
+see what it holds.
+
