@@ -5,7 +5,7 @@ description: |
 author:
   - name: Julian During 
     url: www.datannery.com
-date: "`r Sys.Date()`"
+date: "2023-01-15"
 output: distill::distill_article
 creative_commons: CC BY
 preview: "https://github.com/duju211/hanukkah_of_data/blob/master/hanukkah.png?raw=true"
