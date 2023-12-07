@@ -1,7 +1,7 @@
 ---
-title: "Hanukkah of Data Revisited"
+title: "Hanukkah of Data Revisited (2023)"
 description: |
-  Short data challenge released over 8 days of Hanukkah in 2023
+  Revisit of fun data challenge from last year
 author:
   - name: Julian During 
     url: www.datannery.com
@@ -23,10 +23,10 @@ tar_load(c(df_customers, df_customers_raw))
 ```
 
 ```{r, preview=TRUE, echo=FALSE}
-knitr::include_graphics("hanukkah.png")
+knitr::include_graphics("diana-polekhina-F6tbedzUQvw-unsplash.jpg")
 ```
 
-Title photo from <a href="https://unsplash.com/@gaellemarcel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Gaelle Marcel</a> on <a href="https://unsplash.com/de/fotos/wkn_KHBExcE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Title photo from <a href="https://unsplash.com/de/@diana_pole?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Diana Polekhina</a> on <a href="https://unsplash.com/de/fotos/rote-und-silberne-handwerkzeuge-F6tbedzUQvw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.
 
 # Challenge
 
@@ -38,7 +38,6 @@ To solve the puzzles we use the following R libraries:
 ```{r, eval=FALSE}
 library(tidyverse)
 ```
-
 
 ## Day 1
 
