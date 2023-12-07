@@ -1,16 +1,18 @@
 ---
-title: "Hanukkah of Data"
+title: "Hanukkah of Data Revisited (2023)"
 description: |
-  Short data challenge released over 8 days of Hanukkah in 2022
+  Revisit of fun data challenge from last year
 author:
   - name: Julian During 
     url: www.datannery.com
-date: "2023-01-15"
+date: "`r Sys.Date()`"
 output: distill::distill_article
 creative_commons: CC BY
 preview: "https://github.com/duju211/hanukkah_of_data/blob/master/hanukkah.png?raw=true"
 repository_url: https://github.com/duju211/hanukkah_of_data
 base_url: https://www.datannery.com/posts/hanukkah-of-data/
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -21,238 +23,49 @@ tar_load(c(df_customers, df_customers_raw))
 ```
 
 ```{r, preview=TRUE, echo=FALSE}
-knitr::include_graphics("hanukkah.png")
+knitr::include_graphics("diana-polekhina-F6tbedzUQvw-unsplash.jpg")
 ```
 
-Title photo from <a href="https://unsplash.com/@gaellemarcel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Gaelle Marcel</a> on <a href="https://unsplash.com/de/fotos/wkn_KHBExcE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Title photo from <a href="https://unsplash.com/de/@diana_pole?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Diana Polekhina</a> on <a href="https://unsplash.com/de/fotos/rote-und-silberne-handwerkzeuge-F6tbedzUQvw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.
 
 # Challenge
 
-'Hanukkah of Data' is a [data challenge](https://hanukkah.bluebird.sh/about/) where you have to solve 8 puzzles surrounding a fictional data set.
+'Hanukkah of Data' is a [data challenge](https://hanukkah.bluebird.sh/about/)
+where you have to solve 8 puzzles surrounding a fictional data set.
 
-We are asked to find a rug for our granduncle Noah who owns a store. The store has data about customer, products and orders. With the help of the data ([CSV files](https://github.com/duju211/hanukkah_of_data/tree/master/csv)) we are asked to solve a total of eight puzzles.
+To solve the puzzles we use the following R libraries:
 
-# Data
+```{r, eval=FALSE}
+library(tidyverse)
+```
 
-The data for this analysis consists of four CSV files: `r tar_read(txt_csv)`. The data is read into R with the help of the `readr::read_csv` function, specifying the correct column types as arguments in the function calls.
+## Day 1
 
-## Customers
+To find the rug, we will need to contact a private investigator.
+The last name of the investigator can be spelled by using the letters printed
+on the phone buttons. For example: 2 has “ABC”, and 3 “DEF”, etc.
 
-There are a total of `r nrow(df_customers_raw)` customers in the raw data. Perform the following preprocessing steps:
+The key pad can be represented in R like this:
 
--   Determine the Initials by splitting the name into first and last name
--   Extract all digits from the phone number and save in column `phone_chr`
--   Remove duplicates
+```{r, file="R/phone_letter.R"}
+```
 
-```{embed}
-"R/customers.R"
+We then need to find the last name of each person. Transform the data so that
+every letter is one row:
+
+```{r, file="R/last_names.R"}
+```
+
+By combining both data sources, we can answer the question:
+
+```{r, file="R/investigator.R"}
 ```
 
 ```{r, echo=FALSE}
-df_customers
-```
-
-## Products
-
-There are a total of `r nrow(tar_read(df_products))` products. Perform the following preprocessing:
-
--   Extract the category by removing all digits from the `desc` string
-
--   Extract additional information that can be found in the bracket text
-
--   Remove remaining brackets from `add_info` and `desc`
-
-```{embed}
-"R/products.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_products)
-```
-
-## Orders
-
-```{r, include=FALSE}
-tar_load(df_orders)
-```
-
-There are a total of `r nrow (df_orders)` orders with
-`r nrow(tar_read(df_order_items))` items ordered. Join the ordered item as
-list column to make them easily accessible.
-
-```{embed}
-"R/orders.R"
-```
-
-# Puzzles
-
-## Puzzle 1
-
-To find the rug, we will need to contact a private investigator. The last name of the investigator can be spelled by using the letters printed on the phone buttons. For example: 2 has "ABC", and 3 "DEF", etc.
-
-The key pad of the phone can be represented in R like this:
-
-```{embed}
-"R/phone_letter.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_phone_letter)
-```
-
-By combining this representation with the data on hand, we can determine the investigator:
-
-```{embed}
-"R/investigator.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_investigator) |>
+tar_read(df_customers) |>
+  semi_join(tar_read(df_investigator), by = "customerid") |>
   select(customerid, name, phone) |>
   gt() |>
   as_raw_html()
 ```
-
-## Puzzle 2
-
-Now we are looking for a contractor, to whom the rug was given to by a cleaning company. The following is known:
-
--   The contractor has the initials 'jd'
--   The cleaning company and the contractor had meetings at Noah's over coffee and bagels
--   The cleaning company stopped outsourcing a few years ago
-
-```{embed}
-"R/contractor.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_contractor) |>
-  select(customerid, name, citystatezip, phone) |>
-  gt() |>
-  as_raw_html()
-```
-
-## Puzzle 3
-
-We are searching for the neighbor of the contractor. The neighbor has the following characteristics:
-
--   Star Sign: Aries
-    -   March 21 - April 19
--   Born in the year of the Dog
-    -   Every 12 years (2018 for example)
--   Lives in the neighborhood
-
-Dog years are determined by the following function:
-
-```{embed}
-"R/det_dog_years.R"
-```
-
-Resulting in: `r str_flatten(tar_read(dog_years), ', ')`
-
-With this information we can find out who the neighbor is:
-
-```{embed}
-"R/spider_hat.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_spider_hat) |>
-  select(customerid, name, citystatezip, birthdate, phone) |>
-  gt() |>
-  as_raw_html()
-```
-
-## Puzzle 4
-
-The next persons has the following habit:
-
--   Claims the first pastries of the day
-
-Filter products for the '`r tar_read(product_pastries)`' category and search for the person which always orders these products first:
-
-```{embed}
-"R/tinder_woman.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_tinder_woman) |>
-  select(customerid, name, phone) |>
-  gt() |>
-  as_raw_html()
-```
-
-## Puzzle 5
-
-In the 5th puzzle we need to find a lady with a lot of cats as pets. We know about her and her pets:
-
--   The cats are senior
-
--   She lives in Queens
-
--   She has a lot of cats
-
-```{embed}
-"R/cat_lady.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_cat_lady) |>
-  select(customerid, name, phone) |>
-  gt() |>
-  as_raw_html()
-```
-
-## Puzzle 6
-
-The cat lady has a very frugal cousin. She tells us: *" Noah [...] loses money whenever she comes in the store":*
-
-```{embed}
-"R/frugal_cousin.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_frugal_cousin) |>
-  select(customerid, name, phone) |>
-  gt() |>
-  as_raw_html()
-```
-
-## Puzzle 7
-
-The frugal cousin tells us how she met her ex-boyfriend. They met while they were buying the same product, but in different colors. So we look at all the orders from the frugal cousin and search for that incident:
-
-```{embed}
-"R/ex_boyfriend.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_ex_boyfriend) |>
-  select(customerid, name, phone) |>
-  gt() |>
-  as_raw_html()
-```
-
-## Puzzle 8
-
-Finally, we search for a collector. The collector is in possession of a complete set of Noah's collectibles. By looking at the data, the relevant category is '`r tar_read(product_collect)`':
-
-```{embed}
-"R/collector.R"
-```
-
-```{r, echo=FALSE}
-tar_read(df_collector) |>
-  select(customerid, name, phone) |>
-  gt() |>
-  as_raw_html()
-```
-
-# End
-
-Participating in the "Hanukkah of Data" competition was both challenging and
-rewarding. We successfully solved 8 difficult puzzles,
-sharpening our problem-solving and coding skills.
-I look forward to the challenge again next year and am eager to
-see what it holds.
 
