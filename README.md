@@ -76,7 +76,7 @@ By combining both data sources, we can answer the question:
 </table>
 </div>
 
-# Day 2
+## Day 2
 
 Now we are looking for a contractor, to whom the rug was given to by a
 cleaning company.
@@ -111,18 +111,20 @@ items to the filtered products:
         left_join(df_order_items, by = "sku")
     }
 
-Look for customer with the searched initials and that they bought coffee
-and bagels sometime:
+Look for 2017 orders where coffee or bagels were bought. Keep only those
+were the customer has the above mentioned initials.
 
-    order_contractor <- function(df_orders, df_coffee_bagels, df_initials_jd) {
+    order_contractor <- function(df_orders, df_coffee_bagels, df_initials) {
       df_orders |>
+        filter(year(ordered) == 2017) |>
         inner_join(df_coffee_bagels, by = "orderid") |>
-        group_by(customerid) |>
+        group_by(customerid, day = floor_date(ordered, unit = "day")) |>
         summarise(
           coffee = any(coffee_bagel == "coffee"),
-          bagel = any(coffee_bagel == "bagel")) |>
-        filter(coffee & bagel) |>
-        semi_join(df_initials_jd, by = "customerid")
+          bagel = any(coffee_bagel == "bagel"), .groups = "drop_last") |>
+        summarise(coffee_and_bagel = any(coffee & bagel)) |>
+        filter(coffee_and_bagel) |>
+        semi_join(df_initials, by = "customerid")
     }
 
 <div id="jghctfqlyy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
