@@ -69,3 +69,33 @@ tar_read(df_customers) |>
   as_raw_html()
 ```
 
+## Day 2
+
+Now we are looking for a contractor, to whom the rug was given to by a
+cleaning company.
+
+Look for customers with the searched initials:
+
+```{r, file="R/initials.R"}
+```
+
+We then look for products that are 'coffee' or 'bagels'.
+Join the order items to the filtered products:
+
+```{r, file="R/coffee_bagels.R"}
+```
+
+Look for 2017 orders where coffee or bagels were bought.
+Keep only those were the customer has the above mentioned initials.
+
+```{r, file="R/order_contractor.R"}
+```
+
+```{r, echo=FALSE}
+tar_read(df_customers) |>
+  semi_join(tar_read(df_order_contractor), by = "customerid") |>
+  select(customerid, name, phone) |>
+  gt() |>
+  as_raw_html()
+```
+

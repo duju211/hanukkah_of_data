@@ -16,15 +16,18 @@ list(
   tar_target(df_customers_raw, customers_raw(customers_path)),
   tar_target(df_customers, customers(df_customers_raw)),
   tar_target(df_products_raw, products_raw(products_path)),
-  tar_target(df_products, products(df_products_raw)),
   tar_target(df_order_items_raw, order_items_raw(order_items_path)),
-  tar_target(df_order_items, order_items(df_order_items_raw, df_products)),
   tar_target(df_orders_raw, orders_raw(orders_path)),
-  tar_target(df_orders, orders(df_orders_raw, df_order_items)),
   
   tar_target(df_phone_letter, phone_letter()),
   tar_target(df_last_names, last_names(df_customers)),
   tar_target(df_investigator, investigator(df_last_names, df_phone_letter)),
+  tar_target(df_initials, initials(df_customers)),
+  tar_target(
+    df_coffee_bagels, coffee_bagels(df_products_raw, df_order_items_raw)),
+  tar_target(
+    df_order_contractor, order_contractor(
+      df_orders_raw, df_coffee_bagels, df_initials)),
   # tar_target(
   #   df_contractor,
   #   contractor(df_orders, df_customers, coffee_bagel_regex)),
