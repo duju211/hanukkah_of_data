@@ -99,3 +99,133 @@ tar_read(df_customers) |>
   as_raw_html()
 ```
 
+## Day 3
+
+Search for the neighbor with the spider hat.
+
+Define rabbit years (pasted from wikipedia):
+
+```{r, file="R/rabbit_years.R"}
+```
+
+Filter for
+
+* Born in dog year
+* Born in cancer zodiac
+* Lives in neighborhood to contractor
+
+```{r, file="R/spider_hat.R"}
+```
+
+```{r, echo=FALSE}
+tar_read(df_spider_hat) |>
+  gt() |>
+  as_raw_html()
+```
+
+## Day 4
+
+Look for order items that are 'pastries':
+
+```{r, file="R/order_items_pastries.R"}
+```
+
+Look for persons that order pastries early in the morning:
+
+```{r, file="R/tinder_woman.R"}
+```
+
+```{r, echo=FALSE}
+tar_read(df_tinder_woman) |>
+  gt() |>
+  as_raw_html()
+```
+
+
+## Day 5
+
+Look for people that live in Staten Island:
+
+```{r, file="R/staten_island.R"}
+```
+
+Look for products that represent cat food for senior cats:
+
+```{r, file="R/senior_cat_food.R"}
+```
+
+Combine the information and look for the searched woman:
+
+```{r, file = "R/cat_lady.R"}
+```
+
+```{r, echo=FALSE}
+tar_read(df_customers) |>
+  semi_join(tar_read(df_cat_lady), by = join_by(customerid)) |>
+  select(customerid, name, citystatezip, phone) |>
+  gt() |>
+  as_raw_html()
+```
+
+## Day 6
+
+Calculate margin for each order item
+
+```{r, file="R/order_items_margins.R"}
+```
+
+Determine customer with the lowest total margin:
+
+```{r, file="R/frugal_cousin.R"}
+```
+
+```{r, echo=FALSE}
+tar_read(df_customers) |>
+  semi_join(tar_read(df_frugal_cousin), by = join_by(customerid)) |>
+  select(customerid, name, phone) |>
+  gt() |>
+  as_raw_html()
+```
+
+
+## Day 7
+
+Find all orders that contain a colored item:
+
+```{r, file="R/color_orders.R"}
+```
+
+Search for orders that happened in close proximity to the orders of the
+frugal cousin:
+
+```{r, file="R/ex_boyfriend.R"}
+```
+
+```{r, echo=FALSE}
+tar_read(df_customers) |>
+  semi_join(tar_read(df_ex_boyfriend), by = join_by(customerid)) |>
+  select(customerid, name, phone) |>
+  gt() |>
+  as_raw_html()
+```
+
+# Day 8
+
+Look for products that are collectibles
+
+```{r, file="R/collectibles.R"}
+```
+
+Find the person
+
+```{r, file="R/collector.R"}
+```
+
+```{r, echo=FALSE}
+tar_read(df_customers) |>
+  semi_join(tar_read(df_collector), by = join_by(customerid)) |>
+  select(customerid, name, phone) |>
+  gt() |>
+  as_raw_html()
+```
+

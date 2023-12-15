@@ -8,5 +8,6 @@ order_contractor <- function(df_orders, df_coffee_bagels, df_initials) {
       bagel = any(coffee_bagel == "bagel"), .groups = "drop_last") |>
     summarise(coffee_and_bagel = any(coffee & bagel)) |>
     filter(coffee_and_bagel) |>
-    semi_join(df_initials, by = "customerid")
+    semi_join(df_initials, by = "customerid") |>
+    verify(length(customerid) == 1)
 }

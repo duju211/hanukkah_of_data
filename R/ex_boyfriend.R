@@ -1,22 +1,10 @@
-ex_boyfriend <- function(df_frugal_cousin, df_orders, df_customers) {
-  df_orders_color <- df_orders |>
+ex_boyfriend <- function(df_color_orders, df_frugal_cousin) {
+  df_color_orders_fc <- df_color_orders |>
     semi_join(df_frugal_cousin, by = "customerid") |>
-    unnest(items) |>
-    mutate(day = floor_date(ordered, "day")) |>
-    filter(!is.na(add_info))
+    mutate(start = ordered - dminutes(1), end = ordered + dminutes(1))
   
-  df_order_rel <- df_orders |>
-    mutate(day = floor_date(ordered, "day")) |>
-    semi_join(df_orders_color, by = "day") |>
-    unnest(items) |>
-    inner_join(
-      df_orders_color, by = c("desc", "day"),
-      suffix = c("_male", "_female")) |>
-    filter(
-      add_info_male != add_info_female,
-      ordered_male >= ordered_female - dminutes(10)
-      & ordered_male <= ordered_female + dminutes(10))
-  
-  df_customers |>
-    semi_join(df_order_rel, by = c("customerid" = "customerid_male"))
+  df_color_orders |>
+    anti_join(df_color_orders_fc, by = join_by(customerid)) |>
+    inner_join(select(df_color_orders_fc, day, start, end), by = join_by(day)) |>
+    filter(ordered >= start & ordered <= end)
 }
