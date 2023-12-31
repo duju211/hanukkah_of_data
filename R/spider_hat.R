@@ -1,13 +1,13 @@
-spider_hat <- function(df_customers, df_contractor, df_rabbit_years) {
-  df_spider_hat <- df_customers |>
+spider_hat <- function(df_customers, df_contractor, df_chinese_year) {
+  df_customers |>
     filter(
       map_lgl(
         birthdate,
         ~ any(
-          df_rabbit_years$start_date <= .x & df_rabbit_years$end_date >= .x)),
+          df_chinese_year$start_date <= .x & df_chinese_year$end_date >= .x)),
       case_when(
-        month(birthdate) == 6 ~ day(birthdate) >= 21,
-        month(birthdate) == 7 ~ day(birthdate) <= 23,
+        month(birthdate) == 9 ~ day(birthdate) >= 23,
+        month(birthdate) == 10 ~ day(birthdate) <= 23,
         TRUE ~ FALSE),
       str_detect(citystatezip, df_contractor$citystatezip)) |>
     select(customerid, name, citystatezip, phone) |>

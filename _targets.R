@@ -11,6 +11,7 @@ list(
   tar_target(dog_years, det_dog_years()),
   tar_target(product_pastries, "BKY"),
   tar_target(product_collect, "COL"),
+  tar_target(searched_initials, "ds"),
   
   tar_target(txt_csv, csv_txt()),
   tar_target(df_customers_raw, customers_raw(customers_path)),
@@ -25,7 +26,7 @@ list(
   tar_target(df_investigator, investigator(df_last_names, df_phone_letter)),
   
   #day2
-  tar_target(df_initials, initials(df_customers)),
+  tar_target(df_initials, initials(df_customers, searched_initials)),
   tar_target(
     df_coffee_bagels, coffee_bagels(df_products_raw, df_order_items_raw)),
   tar_target(
@@ -39,8 +40,9 @@ list(
   
   #day3
   tar_target(df_rabbit_years, rabbit_years()),
+  tar_target(df_goat_years, goat_years()),
   tar_target(
-    df_spider_hat, spider_hat(df_customers, df_contractor, df_rabbit_years)),
+    df_spider_hat, spider_hat(df_customers, df_contractor, df_goat_years)),
   
   #day4
   tar_target(
