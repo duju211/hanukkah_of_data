@@ -1,5 +1,5 @@
 ---
-title: "Hanukkah of Data Revisited (2023)"
+title: "Hanukkah of Data Revisited (2023 / Speedrun)"
 description: |
   Revisit of fun data challenge from last year
 author:
@@ -32,12 +32,32 @@ Title photo from <a href="https://unsplash.com/de/@diana_pole?utm_content=credit
 
 'Hanukkah of Data' is a [data challenge](https://hanukkah.bluebird.sh/about/)
 where you have to solve 8 puzzles surrounding a fictional data set.
+I have already participated in
+[last year's](https://www.datannery.com/posts/hanukkah-of-data/) challenge,
+but it was a lot of fun to revisit the old puzzles and rework some of my
+solutions.
+
+Especially the 'speed-run' challenge had some twists in it, therefore I will
+talk about these puzzles in this blog post. The puzzles are mostly the same
+as in the normal version, but the data has some more difficult edge cases in it.
 
 To solve the puzzles we use the following R libraries:
 
 ```{r, eval=FALSE}
 library(tidyverse)
+library(assertr)
 ```
+
+I've already used the `tidyverse` in last years challenge. This year I am
+also using `assertr` to detect problems with my solutions as early as possible.
+
+Behind the scenes the whole analysis is created as a `targets` pipeline.
+So if you want to reproduce the analysis, you have to perform the following
+steps:
+
+* Clone the [repository](https://github.com/duju211/hanukkah_of_data)
+* Run `renv::restore()` to restore the R package versions
+* Run `targets::tar_make()` to run the pipeline
 
 ## Day 1
 
@@ -50,8 +70,13 @@ The key pad can be represented in R like this:
 ```{r, file="R/phone_letter.R"}
 ```
 
-We then need to find the last name of each person. Transform the data so that
-every letter is one row:
+We then need to find the last name of each person.
+This can be a little bit tricky. Names can also include special suffixes
+like `Jr.` or roman numbers like `III`. Therefore we use a regex to filter for
+last names that start with a upper case letter and end with one or more lower
+case letters.
+
+After that we transform the data so that every letter is one row:
 
 ```{r, file="R/last_names.R"}
 ```
@@ -74,7 +99,8 @@ tar_read(df_customers) |>
 Now we are looking for a contractor, to whom the rug was given to by a
 cleaning company.
 
-Look for customers with the searched initials:
+Look for customers with the searched initials
+('`r tar_read(searched_initials)`', for the speed run):
 
 ```{r, file="R/initials.R"}
 ```
@@ -101,18 +127,22 @@ tar_read(df_customers) |>
 
 ## Day 3
 
-Search for the neighbor with the spider hat.
+Search for the neighbor with the spider hat. The filtering conditions are the
+following:
 
-Define rabbit years (pasted from wikipedia):
+* Born in goat year
+* Born in libra zodiac
+* Lives in neighborhood to contractor
 
-```{r, file="R/rabbit_years.R"}
+These are the specific filter conditions for the speed run. For the other
+versions of the game, these are different. But the general filtering stays the
+same.
+
+Define goat years (pasted from wikipedia):
+
+```{r, file="R/goat_years.R"}
 ```
 
-Filter for
-
-* Born in dog year
-* Born in cancer zodiac
-* Lives in neighborhood to contractor
 
 ```{r, file="R/spider_hat.R"}
 ```
@@ -144,7 +174,7 @@ tar_read(df_tinder_woman) |>
 
 ## Day 5
 
-Look for people that live in Staten Island:
+Look for people that live in Staten Island (not needed for the speedrun):
 
 ```{r, file="R/staten_island.R"}
 ```
@@ -216,7 +246,7 @@ Look for products that are collectibles
 ```{r, file="R/collectibles.R"}
 ```
 
-Find the person
+Find the person who has all the collectibles
 
 ```{r, file="R/collector.R"}
 ```
@@ -229,3 +259,12 @@ tar_read(df_customers) |>
   as_raw_html()
 ```
 
+# Conclusion
+
+As last year, I had a lot of fun solving the Hanukkah of Data challenges.
+I revisited my previous solutions and improved them to solve the new challenges.
+By using functions from the `assertr` package, I could spot difficulties early.
+Especially during the speed run at the end of the challenge, this type of
+assertive programming made it more easy for me, to adjust my solutions to more
+challenging data and edge cases. I'm already looking forward to the challenges
+next year :-).
