@@ -10,6 +10,6 @@ spider_hat <- function(df_customers, df_contractor, df_chinese_year) {
         month(birthdate) == 10 ~ day(birthdate) <= 23,
         TRUE ~ FALSE),
       str_detect(citystatezip, df_contractor$citystatezip)) |>
-    select(customerid, name, citystatezip, phone) |>
+    select(customerid, first_name, last_name, citystatezip, phone) |>
     verify(length(customerid) == 1)
 }

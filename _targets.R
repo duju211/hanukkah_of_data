@@ -22,8 +22,7 @@ list(
   
   #day1
   tar_target(df_phone_letter, phone_letter()),
-  tar_target(df_last_names, last_names(df_customers)),
-  tar_target(df_investigator, investigator(df_last_names, df_phone_letter)),
+  tar_target(df_investigator, investigator(df_customers, df_phone_letter)),
   
   #day2
   tar_target(df_initials, initials(df_customers, searched_initials)),
@@ -36,7 +35,7 @@ list(
     df_contractor,
     select(
       semi_join(df_customers, df_order_contractor, by = "customerid"),
-      customerid, name, phone, citystatezip)),
+      customerid, first_name, last_name, phone, citystatezip)),
   
   #day3
   tar_target(df_rabbit_years, rabbit_years()),

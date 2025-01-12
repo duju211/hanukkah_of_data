@@ -10,6 +10,6 @@ tinder_woman <- function(df_orders, df_order_items_pastries, df_customers) {
     count(customerid, sort = TRUE) |>
     slice(1) |>
     left_join(
-      select(df_customers, customerid, name, phone),
+      select(df_customers, customerid, first_name, last_name, phone),
       by = c("customerid"))
 }

@@ -13,13 +13,16 @@ repository_url: https://github.com/duju211/hanukkah_of_data
 base_url: https://www.datannery.com/posts/hanukkah-of-data/
 editor_options: 
   chunk_output_type: console
+params:
+  test: FALSE
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = params$test)
 source("libraries.R")
 
-tar_load(c(df_customers, df_customers_raw))
+df_manifest <- tar_manifest() |>
+  mutate(command = str_glue("{name} <- {command}"))
 ```
 
 ```{r, preview=TRUE, echo=FALSE}
@@ -43,9 +46,7 @@ as in the normal version, but the data has some more difficult edge cases in it.
 
 To solve the puzzles we use the following R libraries:
 
-```{r, eval=FALSE}
-library(tidyverse)
-library(assertr)
+```{r, eval=FALSE, file="libraries.R"}
 ```
 
 I've already used the `tidyverse` in last years challenge. This year I am
@@ -65,20 +66,35 @@ To find the rug, we will need to contact a private investigator.
 The last name of the investigator can be spelled by using the letters printed
 on the phone buttons. For example: 2 has “ABC”, and 3 “DEF”, etc.
 
-The key pad can be represented in R like this:
+Before we can begin, load in customer data. It can be found under:
 
-```{r, file="R/phone_letter.R"}
+```{r customers_path, code=df_manifest$command[df_manifest$name == "customers_path"]}
 ```
 
-We then need to find the last name of each person.
+Read in CSV data and define appropriate column types:
+
+```{r fun_customers_raw, file="R/customers_raw.R"}
+```
+
+Make sure every `customerid` is uniq and remove non digits from phone number.
+We also need to find the last name of each person.
 This can be a little bit tricky. Names can also include special suffixes
 like `Jr.` or roman numbers like `III`. Therefore we use a regex to filter for
 last names that start with a upper case letter and end with one or more lower
 case letters.
 
-After that we transform the data so that every letter is one row:
+```{r fun_customers, file="R/customers.R"}
+```
 
-```{r, file="R/last_names.R"}
+```{r df_customers, code=df_manifest$command[df_manifest$name == "df_customers"]}
+```
+
+The key pad can be represented in R like this:
+
+```{r, file="R/phone_letter.R"}
+```
+
+```{r df_phone_letter, code=df_manifest$command[df_manifest$name == "df_phone_letter"]}
 ```
 
 By combining both data sources, we can answer the question:
@@ -86,10 +102,16 @@ By combining both data sources, we can answer the question:
 ```{r, file="R/investigator.R"}
 ```
 
-```{r, echo=FALSE}
-tar_read(df_customers) |>
-  semi_join(tar_read(df_investigator), by = "customerid") |>
-  select(customerid, name, phone) |>
+```{r, code=df_manifest$command[df_manifest$name == "df_investigator"]}
+```
+
+```{r, eval=TRUE, include=FALSE}
+if (!params$test)
+  tar_load(df_investigator)
+```
+
+```{r, echo=FALSE, eval=TRUE}
+df_investigator |>
   gt() |>
   as_raw_html()
 ```
@@ -99,13 +121,33 @@ tar_read(df_customers) |>
 Now we are looking for a contractor, to whom the rug was given to by a
 cleaning company.
 
-Look for customers with the searched initials
-('`r tar_read(searched_initials)`', for the speed run):
+Define the initials to search for:
 
-```{r, file="R/initials.R"}
+```{r searched_initials, code=df_manifest$command[df_manifest$name == "searched_initials"]}
 ```
 
+Look for customers with the searched initials:
+
+```{r fun_initials, file="R/initials.R"}
+```
+
+```{r df_initials, code=df_manifest$command[df_manifest$name == "df_initials"]}
+```
+
+
 We then look for products that are 'coffee' or 'bagels'.
+
+Before doing so read in products data:
+
+```{r products_path, code=df_manifest$command[df_manifest$name == "products_path"]}
+```
+
+```{r fun_products_raw, file="R/products_raw.R"}
+```
+
+```{r df_products_raw, code=df_manifest$command[df_manifest$name == "df_products_raw"]}
+```
+
 Join the order items to the filtered products:
 
 ```{r, file="R/coffee_bagels.R"}
