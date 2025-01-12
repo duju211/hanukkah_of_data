@@ -14,8 +14,7 @@ list(
   tar_target(searched_initials, "ds"),
   
   tar_target(txt_csv, csv_txt()),
-  tar_target(df_customers_raw, customers_raw(customers_path)),
-  tar_target(df_customers, customers(df_customers_raw)),
+  tar_target(df_customers, customers(customers_path)),
   tar_target(df_products_raw, products_raw(products_path)),
   tar_target(df_order_items_raw, order_items_raw(order_items_path)),
   tar_target(df_orders_raw, orders_raw(orders_path)),

@@ -56,20 +56,17 @@ Before we can begin, load in customer data. It can be found under:
 
     customers_path <- "csv/noahs-customers.csv"
 
-Read in CSV data and define appropriate column types:
+Read in CSV data and define appropriate column types. Make sure every
+`customerid` is uniq and remove non digits from phone number. We also
+need to find the last name of each person. This can be a little bit
+tricky. Names can also include special suffixes like `Jr.` or roman
+numbers like `III`. Therefore we use a regex to filter for last names
+that start with a upper case letter and end with one or more lower case
+letters.
 
-    customers_raw <- function(customers_path) {
-      read_csv(customers_path, col_types = "ccccDc")
-    }
-
-Make sure every `customerid` is uniq and remove non digits from phone
-number. We also need to find the last name of each person. This can be a
-little bit tricky. Names can also include special suffixes like `Jr.` or
-roman numbers like `III`. Therefore we use a regex to filter for last
-names that start with a upper case letter and end with one or more lower
-case letters.
-
-    customers <- function(df_customers_raw) {
+    customers <- function(customers_path) {
+      df_customers_raw <- read_csv(customers_path, col_types = "ccccDc")
+      
       df_customers_raw |>
         assert(is_uniq, customerid) |>
         mutate(phone = str_remove_all(phone, "-")) |>
@@ -79,7 +76,7 @@ case letters.
           too_few = "align_start")
     }
 
-    df_customers <- customers(df_customers_raw)
+    df_customers <- customers(customers_path)
 
 The key pad can be represented in R like this:
 

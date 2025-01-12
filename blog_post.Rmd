@@ -71,11 +71,7 @@ Before we can begin, load in customer data. It can be found under:
 ```{r customers_path, code=df_manifest$command[df_manifest$name == "customers_path"]}
 ```
 
-Read in CSV data and define appropriate column types:
-
-```{r fun_customers_raw, file="R/customers_raw.R"}
-```
-
+Read in CSV data and define appropriate column types.
 Make sure every `customerid` is uniq and remove non digits from phone number.
 We also need to find the last name of each person.
 This can be a little bit tricky. Names can also include special suffixes
@@ -119,7 +115,11 @@ df_investigator |>
 ## Day 2
 
 Now we are looking for a contractor, to whom the rug was given to by a
-cleaning company.
+cleaning company. These facts are known about the contractor:
+
+* Initials
+* Year of the claim ticket: 2017
+* Met over Coffee/Bagels
 
 Define the initials to search for:
 
